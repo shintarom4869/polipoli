@@ -12,9 +12,6 @@ target 'polipoli' do
    pod ‘Firebase/Core’
 
 
-pod 'FBSDKCoreKit'
-pod 'FBSDKLoginKit'
-pod 'FBSDKShareKit'
 
   # Pods for polipoli
 
