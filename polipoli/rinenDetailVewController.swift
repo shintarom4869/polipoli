@@ -8,12 +8,23 @@
 
 import UIKit
 
-class Detail1ViewController: UIViewController {
-
+class rinenDetailViewController: UIViewController {
+    
+    var rinenDetailText = String()
+    
+    @IBOutlet weak var rinenDetailLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        rinenDetailLabel.text = rinenDetailText
     }
 
     override func didReceiveMemoryWarning() {

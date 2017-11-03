@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Note that changes made to a child FIRMutableData instance will be visible to the parent.
  */
 FIR_SWIFT_NAME(MutableData)
-@interface FIRMutableData : NSObject
+@interface 　FIRMutableData : NSObject
 
 
 #pragma mark - Inspecting and navigating the data

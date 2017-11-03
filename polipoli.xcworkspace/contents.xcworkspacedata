@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/shintaro/Dropbox/polipoli/polipoli/LoginViewController.swift">
-   </FileRef>
-   <FileRef
       location = "group:polipoli.xcodeproj">
    </FileRef>
    <FileRef

@@ -1,19 +1,27 @@
 //
-//  Detail2ViewController.swift
+//  performDetailViewController.swift
 //  polipoli
 //
-//  Created by 村上真太朗 on 11/1/17.
+//  Created by 村上真太朗 on 11/2/17.
 //  Copyright © 2017 polipoli. All rights reserved.
 //
 
 import UIKit
 
-class Detail2ViewController: UIViewController {
+class performDetailViewController: UIViewController {
 
+    var performDetailText = String()
+    
+    @IBOutlet weak var performDetailLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        performDetailLabel.text = performDetailText
+        
     }
 
     override func didReceiveMemoryWarning() {
