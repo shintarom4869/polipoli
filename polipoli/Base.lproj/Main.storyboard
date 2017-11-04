@@ -355,7 +355,7 @@
                                 <rect key="frame" x="4" y="572" width="365" height="92"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <segue destination="uRR-g5-azs" kind="show" id="Vcg-ic-wTj"/>
+                                    <action selector="toPostRoom:" destination="w5b-kL-bhp" eventType="touchUpInside" id="gqB-eC-W0R"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMI-1v-sYc">
@@ -395,6 +395,8 @@
                         <segue destination="eea-s3-5NQ" kind="show" identifier="movieDetail" id="15b-fM-TCX"/>
                         <segue destination="QDa-59-pBB" kind="show" identifier="planDetail" id="T9I-bd-fV3"/>
                         <segue destination="JDO-PX-Qtx" kind="show" identifier="performDetail" id="JvM-ZV-1S7"/>
+                        <segue destination="uRR-g5-azs" kind="show" identifier="toPost" id="Q4z-dX-TKj"/>
+                        <segue destination="gEt-Nw-5Rm" kind="show" identifier="toQA" id="wSk-VP-sJw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foc-ZX-96u" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -429,18 +431,19 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXC-Ot-UMm">
-                                                    <rect key="frame" x="279" y="69" width="46" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="いいね"/>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ah-8l-tix">
-                                                    <rect key="frame" x="325" y="74" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ah-8l-tix">
+                                                    <rect key="frame" x="313" y="74" width="54" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXC-Ot-UMm">
+                                                    <rect key="frame" x="244" y="67" width="101" height="35"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <state key="normal" title="いいね"/>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -470,12 +473,27 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="commentTableView" destination="MUe-Rw-CpQ" id="B90-5X-xfg"/>
-                        <segue destination="vzy-CT-c6g" kind="show" identifier="toComment" id="oat-fJ-niW"/>
+                        <segue destination="vzy-CT-c6g" kind="show" identifier="toEditComment" id="oat-fJ-niW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2P4-DR-Nvp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3688.8000000000002" y="106.59670164917542"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="p6Y-US-dgv">
+            <objects>
+                <viewController id="gEt-Nw-5Rm" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VMB-ib-Zov">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="L69-cU-91x"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mCT-FJ-4X0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3670" y="882"/>
         </scene>
         <!--質問する-->
         <scene sceneID="u83-4a-gYJ">

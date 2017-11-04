@@ -11,25 +11,26 @@ import Firebase
 
 class CommentViewController: UIViewController,UITextFieldDelegate,UINavigationControllerDelegate,
 UITableViewDelegate,UITableViewDataSource{
+    
+    var roomNum = Int()
 
     var commentItems = [NSDictionary]()
     var countGoodNum = Int()
     
     var uid = Auth.auth().currentUser?.uid
-//    var post = [NSDictionary]()
     var ref: DatabaseReference = Database.database().reference(fromURL: "https://polipoli-a5a2f.firebaseio.com/")
     
 
     var key = String()
     var keyArray = [String]()
+
+    var countUPButton = UIButton()
     
 
     @IBOutlet weak var commentTableView: UITableView!
     
     let refreshControl = UIRefreshControl()
     
-//    var nowtableViewComment = String()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,19 +49,10 @@ UITableViewDelegate,UITableViewDataSource{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        if UserDefaults.standard.object(forKey: "login") != nil {
-//
-//        } else {
-//            let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "loginView")
-//            self.present(loginViewController!, animated: true, completion: nil)
-//        }
-        
         self.commentItems = [NSDictionary]()
         loadAllData()
         self.commentTableView.reloadData()
         self.refreshControl.endRefreshing()
-        
-        
         
     }
     
@@ -80,25 +72,28 @@ UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.gray
         
-        
         let dict = commentItems[(indexPath as NSIndexPath).row]
        
         //コメント
         let commentTextView = cell.viewWithTag(1) as! UITextView
         commentTextView.text = dict["comment"] as? String
-      
-
+        
         //いいね
         let countGoodLabel = cell.viewWithTag(2) as! UILabel
-        countGoodLabel.text = dict["goodCount"] as? String
+        let option = String(describing: dict["goodCount"])
+        let da = option.substring(from: option.index(option.startIndex, offsetBy: 9))
+        let go = da.substring(to: da.index(before: da.endIndex))
+        countGoodLabel.text = go
         countGoodLabel.textColor = UIColor.red
-        //いいねb
-        let goodButton = cell.viewWithTag(3) as! UIButton
-        goodButton.addTarget(self, action: #selector(countUP), for: .touchUpInside)
+        
+        //いいね!ボタン
+        self.countUPButton = cell.viewWithTag(3) as! UIButton
+        self.countUPButton.addTarget(self, action: #selector(countUP), for: .touchUpInside)
         
         return cell
     }
-    //いいねを押した時p
+    
+    //いいねを押した時
     @objc func countUP(sender: UIButton) {
         //row番目のセルのボタンが押された
         let cell = sender.superview?.superview as! UITableViewCell
@@ -106,40 +101,41 @@ UITableViewDelegate,UITableViewDataSource{
         print("cell: \(row)")
         //押したボタンのpostkeyをとる
         let dict = self.commentItems[row]
-        var key = dict["autoID"] as! String
+        let key = dict["autoID"] as! String
         print("autoID:\(key)")
         
-        let firebase = Database.database().reference().child("Posts")
+        let firebase = Database.database().reference().child("Posts\(self.roomNum)")
         firebase.child("\(key)").runTransactionBlock ({ (currentData) -> TransactionResult in
             if var post = currentData.value as? [String : AnyObject] {
                 var starCount = post["goodCount"] as? Int ?? 0
-                print(starCount)
                 starCount += 1
                 post["goodCount"] = starCount as AnyObject?
                 print("いいね:\(starCount)")
                 // Set value and report transaction success
                 currentData.value = post
-            
                 return TransactionResult.success(withValue: currentData)
             }
+
             return TransactionResult.success(withValue: currentData)
+
         }) { (error, isCommitted, snapshot) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
             //goodCountにアクセス、セルに送信？
             
             //リロード
             self.commentTableView.reloadData()
-
-
         }
+
     }
     
-
-    
+    // 更新
    func loadAllData() {
         //ロード中にくるくるが回る
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         //取ってくる場所の指定
-        let firebase = Database.database().reference().child("Posts")
+        let firebase = Database.database().reference().child("Posts\(self.roomNum)")
         //最新のものN個とってくる
         firebase.queryLimited(toLast: 100).observe(.value) { (snapshot,error) in
             var tempItems = [NSDictionary]()
@@ -156,22 +152,25 @@ UITableViewDelegate,UITableViewDataSource{
         }
         
     }
-    
+    //引っ張って更新
     @objc func refresh(){
         commentItems = [NSDictionary]()
         loadAllData()
         commentTableView.reloadData()
         refreshControl.endRefreshing()
     }
-    
-//    @IBAction func back(_ sender: Any) {
-//        dismiss(animated: true, completion: nil)
-//    }
-    
 
     @IBAction  func toEditComment(){
-    performSegue(withIdentifier: "toComment", sender: nil)
+    performSegue(withIdentifier: "toEditComment", sender: nil)
     
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toEditComment" {
+            let postCommentVC:PostCommentViewController = segue.destination as! PostCommentViewController
+            postCommentVC.roomNumm = self.roomNum
+        }
     }
     
 

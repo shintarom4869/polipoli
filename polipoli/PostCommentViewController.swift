@@ -11,6 +11,9 @@ import Firebase
 
 class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigationControllerDelegate {
     
+ 
+    var roomNumm = Int()
+    
     @IBOutlet var commentTextView: UITextView!
     @IBOutlet weak var postButton: UIBarButtonItem!
     
@@ -34,46 +37,36 @@ class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigatio
     
     func postAll() {
         
-        let rootRef = ref.child("Posts")
-        
+        let rootRef = ref.child("Posts\(self.roomNumm)")
         
         //uuid
-        let uuid: NSString = NSUUID().uuidString as NSString
+//        let uuid: NSString = NSUUID().uuidString as NSString
 
         //コメント
         let message = commentTextView.text
         
         //いいねカウント
-        let goodCount = String(0)
-//        let likeCount = Int()
+        let goodCount = 0
         var autoid = rootRef.childByAutoId().key
 
         print(rootRef.childByAutoId().key)
 
         AppDelegate.instance().showIndicator()
         
-
         
-        let feed:[String : AnyObject] = ["comment":message as AnyObject,"fullName":uuid,"goodCount":goodCount as AnyObject,"autoID":autoid as AnyObject]
+        let feed:[String : AnyObject] = ["comment":message as AnyObject,"goodCount":goodCount as AnyObject,"autoID":autoid as AnyObject]
         
         rootRef.child("\(autoid)").setValue(feed)
-  
-
-        
-
-     
         
         AppDelegate.instance().dismissActivityIndicator()
-        
-        
     }
 
     
     @IBAction func tweet(_ sender: Any) {
         
         
-        if commentTextView.text.count < 5 {
-            let alertViewControler = UIAlertController(title: "もっと書こう", message: "少なすぎです", preferredStyle: .alert)
+        if commentTextView.text.count < 4 {
+            let alertViewControler = UIAlertController(title: "もっと書こうな？", message: "少なすぎな？", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             
             alertViewControler.addAction(okAction)
@@ -96,30 +89,16 @@ class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigatio
         }
     }
     
-
-    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if commentTextView.isFirstResponder {
             commentTextView.resignFirstResponder()
         }
     }
 
-    
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -128,6 +128,10 @@ class SeizikaViewController: UIViewController {
         self.performSegue(withIdentifier: "performDetail", sender: nil)
     }
     
+    @IBAction func toPostRoom(_ sender: Any) {
+        self.performSegue(withIdentifier: "toPost", sender: nil)
+        
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -151,6 +155,9 @@ class SeizikaViewController: UIViewController {
             performDetailVC.performDetailText = nowDetailPerform
             
             
+        }else if segue.identifier == "toPost" {
+            let commentVC:CommentViewController = segue.destination as! CommentViewController
+            commentVC.roomNum = self.pathNum
         }
     }
     
