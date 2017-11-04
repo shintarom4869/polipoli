@@ -15,13 +15,13 @@ UITableViewDelegate,UITableViewDataSource{
     var commentItems = [NSDictionary]()
     var countGoodNum = Int()
     
-    var numm = Int()
-    
     var uid = Auth.auth().currentUser?.uid
-    var post = [NSDictionary]()
+//    var post = [NSDictionary]()
     var ref: DatabaseReference = Database.database().reference(fromURL: "https://polipoli-a5a2f.firebaseio.com/")
     
 
+    var key = String()
+    var keyArray = [String]()
     
 
     @IBOutlet weak var commentTableView: UITableView!
@@ -77,35 +77,65 @@ UITableViewDelegate,UITableViewDataSource{
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.gray
         
-        var numm = (indexPath as NSIndexPath).row
         
         let dict = commentItems[(indexPath as NSIndexPath).row]
        
         //コメント
         let commentTextView = cell.viewWithTag(1) as! UITextView
         commentTextView.text = dict["comment"] as? String
-        //日時
-        //        let dateLabel = cell.viewWithTag(5) as! UILabel
-        //dateLabel.text = self.posts[indexPath.row].date
+      
+
         //いいね
         let countGoodLabel = cell.viewWithTag(2) as! UILabel
         countGoodLabel.text = dict["goodCount"] as? String
+        countGoodLabel.textColor = UIColor.red
         //いいねb
         let goodButton = cell.viewWithTag(3) as! UIButton
-        goodButton.addTarget(self, action: Selector(("countUP")), for: .touchUpInside)
+        goodButton.addTarget(self, action: #selector(countUP), for: .touchUpInside)
         
-        func countUP() {
-        }
-
         return cell
+    }
+    //いいねを押した時p
+    @objc func countUP(sender: UIButton) {
+        //row番目のセルのボタンが押された
+        let cell = sender.superview?.superview as! UITableViewCell
+        let row = commentTableView.indexPath(for: cell)!.row
+        print("cell: \(row)")
+        //押したボタンのpostkeyをとる
+        let dict = self.commentItems[row]
+        var key = dict["autoID"] as! String
+        print("autoID:\(key)")
+        
+        let firebase = Database.database().reference().child("Posts")
+        firebase.child("\(key)").runTransactionBlock ({ (currentData) -> TransactionResult in
+            if var post = currentData.value as? [String : AnyObject] {
+                var starCount = post["goodCount"] as? Int ?? 0
+                print(starCount)
+                starCount += 1
+                post["goodCount"] = starCount as AnyObject?
+                print("いいね:\(starCount)")
+                // Set value and report transaction success
+                currentData.value = post
+            
+                return TransactionResult.success(withValue: currentData)
+            }
+            return TransactionResult.success(withValue: currentData)
+        }) { (error, isCommitted, snapshot) in
+            //goodCountにアクセス、セルに送信？
+            
+            //リロード
+            self.commentTableView.reloadData()
+
+
+        }
     }
     
 
-
-    func loadAllData() {
+    
+   func loadAllData() {
         //ロード中にくるくるが回る
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         //取ってくる場所の指定

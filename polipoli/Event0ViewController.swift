@@ -16,10 +16,10 @@ class Event0ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func back(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
+//    @IBAction func back(_ sender: Any) {
+//        dismiss(animated: true, completion: nil)
+//    }
+//    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

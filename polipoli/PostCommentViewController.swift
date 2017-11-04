@@ -23,6 +23,10 @@ class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigatio
         
         commentTextView.delegate = self
         
+        commentTextView.layer.borderColor =  UIColor.init(red: 76.0/255.0, green: 76.0/255.0, blue: 76.0/255.0, alpha: 1.0).cgColor
+        commentTextView.layer.borderWidth = 0.7
+        commentTextView.layer.cornerRadius = 15.0
+        
     }
 
     
@@ -39,15 +43,24 @@ class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigatio
         //コメント
         let message = commentTextView.text
         
-        var goodCount = 0
-        
+        //いいねカウント
+        let goodCount = String(0)
+//        let likeCount = Int()
+        var autoid = rootRef.childByAutoId().key
+
+        print(rootRef.childByAutoId().key)
+
         AppDelegate.instance().showIndicator()
         
-        let feed:NSDictionary = ["comment":message,"fullName":uuid]
+
         
-        rootRef.childByAutoId().setValue(feed)
+        let feed:[String : AnyObject] = ["comment":message as AnyObject,"fullName":uuid,"goodCount":goodCount as AnyObject,"autoID":autoid as AnyObject]
         
-       
+        rootRef.child("\(autoid)").setValue(feed)
+  
+
+        
+
      
         
         AppDelegate.instance().dismissActivityIndicator()
