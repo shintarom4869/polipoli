@@ -12,7 +12,7 @@ class planDetailViewController: UIViewController {
     
     var planDetailText = String()
 
-    @IBOutlet weak var planDetailLabel: UILabel!
+    @IBOutlet weak var planDetailLabel: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
 

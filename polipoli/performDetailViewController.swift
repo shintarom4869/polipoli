@@ -12,7 +12,7 @@ class performDetailViewController: UIViewController {
 
     var performDetailText = String()
     
-    @IBOutlet weak var performDetailLabel: UILabel!
+    @IBOutlet weak var performDetailLabel: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
