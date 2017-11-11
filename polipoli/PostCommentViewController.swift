@@ -17,9 +17,8 @@ class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigatio
     @IBOutlet var commentTextView: UITextView!
     @IBOutlet weak var postButton: UIBarButtonItem!
     
-    var uid = Auth.auth().currentUser?.uid
     
-    var ref: DatabaseReference = Database.database().reference(fromURL: "https://polipoli-a5a2f.firebaseio.com/")
+    var ref: DatabaseReference = Database.database().reference(fromURL: "https://polipoli-a5a2f.firebaseio.com/").child("POST")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,27 +37,25 @@ class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigatio
     func postAll() {
         
         let rootRef = ref.child("Posts\(self.roomNumm)")
-        
-        //uuid
-//        let uuid: NSString = NSUUID().uuidString as NSString
 
         //コメント
         let message = commentTextView.text
         
         //いいねカウント
         let goodCount = 0
-        var autoid = rootRef.childByAutoId().key
-
-        print(rootRef.childByAutoId().key)
-
+        let autoid = rootRef.childByAutoId().key
+        
+        let keyName = UserDefaults.standard.object(forKey: "deviceId") as! String
+        
         AppDelegate.instance().showIndicator()
         
         
-        let feed:[String : AnyObject] = ["comment":message as AnyObject,"goodCount":goodCount as AnyObject,"autoID":autoid as AnyObject]
+        let feed:[String : AnyObject] = ["comment":message as AnyObject,"goodCount":goodCount as AnyObject,"autoID":autoid as AnyObject,"stars": ["\(keyName)" : false] as AnyObject]
         
         rootRef.child("\(autoid)").setValue(feed)
         
         AppDelegate.instance().dismissActivityIndicator()
+        
     }
 
     
@@ -66,7 +63,7 @@ class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigatio
         
         
         if commentTextView.text.count < 4 {
-            let alertViewControler = UIAlertController(title: "もっと書こうな？", message: "少なすぎな？", preferredStyle: .alert)
+            let alertViewControler = UIAlertController(title: "少なすぎです", message: "意見を書いてください", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             
             alertViewControler.addAction(okAction)
@@ -80,7 +77,6 @@ class PostCommentViewController: UIViewController,UITextViewDelegate,UINavigatio
             })
             let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: { (action) in
                 //何もしない
-                
             })
             alertController.addAction(okAction)
             alertController.addAction(cancelAction)

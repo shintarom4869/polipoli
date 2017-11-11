@@ -35,9 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             container.addSubview(activityIndicator)
             window.addSubview(container)
             activityIndicator.startAnimating()
-            
         }
-        
     }
     
     func dismissActivityIndicator(){
@@ -46,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             container.removeFromSuperview()
         }
-        
     }
 
 

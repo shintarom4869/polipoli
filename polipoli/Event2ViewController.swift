@@ -10,14 +10,31 @@ import UIKit
 
 class Event2ViewController: UIViewController {
 
+    
+    @IBOutlet weak var sv: UIScrollView!
+    var iv = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        iv.frame = CGRect(x: 0, y: 0, width: 375*6, height: 270)
+        
+        //uiButtonを作成0~5
+        for i in 0..<6 {
+            let view: UIImageView = UIImageView()
+            view.frame = CGRect(x: (375*i), y: 0, width: 375, height: 270)
+            let viewImage:UIImage = UIImage(named: String(format: "%02d", i) + ".png")!
+            view.image = viewImage
+            iv.addSubview(view)
+        }
+        
+        sv.addSubview(iv)
+        sv.contentSize = iv.bounds.size
+        sv.isPagingEnabled = true
 
         // Do any additional setup after loading the view.
     }
-//    @IBAction func back(_ sender: Any) {
-//        dismiss(animated: true, completion: nil)
-//    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
